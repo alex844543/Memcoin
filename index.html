@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MACCA — THE COIN WITH ATTITUDE</title>
+  <meta name="description" content="MACCA is the pink and gold Solana meme coin with attitude. Join the movement." />
+  <meta property="og:title" content="MACCA — THE COIN WITH ATTITUDE" />
+  <meta property="og:description" content="Pink. Golden. Unapologetic. The MACCA meme coin on Solana." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Noise overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- SVG Filter Defs (liquid glass distortion) -->
+  <svg id="svg-defs" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="lg-distort" x="-20%" y="-20%" width="140%" height="140%"
+              color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.008"
+                      numOctaves="3" seed="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise"
+                           scale="22" xChannelSelector="R" yChannelSelector="G"
+                           result="displaced"/>
+        <feComposite in="displaced" in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-logo">MACCA</div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar" id="loading-bar"></div>
+    </div>
+    <div class="loading-text">Loading 3D Model…</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <a class="nav-logo" href="#hero-section" id="nav-logo">MACCA</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#hero-section">Coin</a></li>
+      <li><a href="#stats-section">About</a></li>
+      <li><a href="#tokenomics-section">Gatornomics</a></li>
+      <li><a href="#roadmap-section">Roadmap</a></li>
+      <li><a href="#how-section">How It Works</a></li>
+      <li><a href="#faq-section">FAQ</a></li>
+      <li><a href="#site-footer">Community</a></li>
+    </ul>
+    <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="nav-buy-btn" id="nav-buy-btn" aria-label="Buy MACCA on Pump.fun">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      ● BUY ON PUMP.FUN
+    </a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       THREE.JS CANVAS (fixed, full screen)
+  ═══════════════════════════════════════ -->
+  <canvas id="hero-canvas" aria-label="Interactive 3D MACCA coin model" role="img"></canvas>
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════ -->
+  <section id="hero-section" aria-labelledby="hero-heading">
+
+    <!-- Left: Liquid-glass MACCA coin card -->
+    <div class="event-card-wrap" id="event-card-wrap">
+      <div class="event-card" id="event-card">
+        <!-- Layer 0: distorted glass bend -->
+        <div class="ec-bend" aria-hidden="true"></div>
+        <!-- Layer 1: soft face glow -->
+        <div class="ec-face" aria-hidden="true"></div>
+        <!-- Layer 2: edge highlight -->
+        <div class="ec-edge" aria-hidden="true"></div>
+        <!-- Layer 3: actual content -->
+        <div class="ec-content">
+
+          <!-- Top status bar -->
+          <div class="card-status-bar">
+            <span class="status-live-pill">
+              <span class="pulse-dot-green"></span>
+              LIVE ON PUMP.FUN
+            </span>
+            <span class="status-badge-chip">FAIR LAUNCH</span>
+          </div>
+
+          <!-- Coin visual area with the uploaded Macca image -->
+          <div class="coin-visual-area">
+            <img src="/images/macca-gator.png" alt="Macca the Gator" class="card-gator-img" />
+            <div class="coin-visual-badge-overlay">
+              <span class="coin-visual-label">$MACCA</span>
+              <span class="coin-visual-sub">MACCA THE GATOR</span>
+            </div>
+          </div>
+
+          <!-- Coin info -->
+          <div class="card-info">
+            <div class="card-ticker-row">
+              <span class="card-ticker">$MACCA · SOLANA MEMECOIN</span>
+              <span class="card-rank-tag">#1 GATOR</span>
+            </div>
+            <div class="card-name">MACCA THE GATOR</div>
+            <div class="card-desc">Vice City's cold-blooded meme king. Pink claws, golden heart.</div>
+
+            <!-- Key memecoin metrics row -->
+            <div class="card-metrics-grid">
+              <div class="metric-chip">
+                <span class="metric-label">TAX</span>
+                <span class="metric-val">0% / 0%</span>
+              </div>
+              <div class="metric-chip">
+                <span class="metric-label">SUPPLY</span>
+                <span class="metric-val">1 BILLION</span>
+              </div>
+              <div class="metric-chip">
+                <span class="metric-label">LAUNCH</span>
+                <span class="metric-val">PUMP.FUN</span>
+              </div>
+            </div>
+
+            <!-- Contract address -->
+            <div class="card-contract-area">
+              <div class="contract-label-row">
+                <span class="contract-label">CONTRACT ADDRESS (SOLANA)</span>
+                <span class="contract-verified">VERIFIED ✓</span>
+              </div>
+              <div class="contract-row">
+                <span class="contract-addr" id="card-contract-addr"
+                      title="6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC">
+                  6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC
+                </span>
+                <button class="copy-btn" id="card-copy-btn" aria-label="Copy contract address">
+                  COPY
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="card-btns">
+            <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="card-btn-primary" id="card-buy-btn">
+              <span>BUY ON PUMP.FUN ↗</span>
+            </a>
+            <a href="https://solscan.io/token/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="card-btn-secondary" id="card-contract-btn" aria-label="View on Solscan explorer">
+              SOLSCAN ↗
+            </a>
+          </div>
+
+          <!-- Network tag -->
+          <div class="card-solana-tag">
+            <span class="solana-dot" aria-hidden="true"></span>
+            <span class="solana-text">Solana Mainnet · Bonding Curve Active</span>
+          </div>
+
+        </div><!-- /ec-content -->
+      </div><!-- /event-card -->
+    </div><!-- /event-card-wrap -->
+
+    <!-- Right: Hero headline text -->
+    <div class="hero-text" id="hero-text">
+      <p class="hero-eyebrow">★ THE OFFICIAL SOLANA MEMECOIN</p>
+
+      <div class="hero-headline" aria-labelledby="hero-heading">
+        <span class="hl-line">MEET</span>
+        <span class="hl-line hl-line--pink" id="hero-heading">MACCA</span>
+        <span class="hl-line">THE GATOR</span>
+      </div>
+
+      <div class="hero-sub-name" aria-hidden="true">MACCA</div>
+
+      <!-- Mobile-only compact card strip -->
+      <div class="mobile-hero-card">
+        <img src="/images/macca-gator.png" alt="Macca the Gator" class="mobile-card-gator" />
+        <div class="mobile-card-info">
+          <div class="mobile-card-ticker">$MACCA · SOLANA</div>
+          <div class="mobile-card-name">MACCA THE GATOR</div>
+          <div class="mobile-card-desc">Vice City's cold-blooded meme king.</div>
+        </div>
+        <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC"
+           target="_blank" rel="noopener noreferrer"
+           class="mobile-card-buy">BUY ↗</a>
+      </div>
+
+      <!-- CTA strip -->
+      <div class="hero-cta-strip">
+        <span class="cta-strip-label">$MACCA ON PUMP.FUN · FAIR LAUNCH LIVE</span>
+        <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="cta-strip-btn" id="hero-get-btn">BUY $MACCA ↗</a>
+      </div>
+
+      <!-- Contract strip -->
+      <div class="contract-strip">
+        <span class="strip-network-badge">PUMP.FUN</span>
+        <span class="strip-addr" id="strip-addr"
+              title="6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC">
+          6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC
+        </span>
+        <button class="strip-copy-btn" id="strip-copy-btn" aria-label="Copy contract address">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </button>
+      </div>
+    </div><!-- /hero-text -->
+
+    <!-- Drag hint -->
+    <div class="drag-hint" aria-hidden="true">↔ DRAG TO SPIN</div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-indicator-line"></div>
+      <span class="scroll-indicator-text">Scroll</span>
+    </div>
+
+    <!-- Nav arrow -->
+    <button class="nav-arrow-btn glass-pill" id="nav-arrow-btn"
+            aria-label="Scroll to next section">›</button>
+
+    <!-- Decorative signature SVG -->
+    <svg class="signature-svg" id="signature-svg"
+         width="160" height="80" viewBox="0 0 160 80"
+         aria-hidden="true">
+      <!-- Stylised M path -->
+      <path class="sp1"
+            d="M 14 62 C 14 62 18 28 28 28 C 38 28 36 62 44 46 C 52 30 50 28 60 28 C 70 28 68 62 78 62"/>
+      <!-- Underline flourish -->
+      <path class="sp2"
+            d="M 10 70 C 30 68 60 72 100 68 C 120 66 140 64 150 62"/>
+      <!-- Accent dot stroke -->
+      <path class="sp3"
+            d="M 95 42 C 98 38 104 36 108 40 C 112 44 110 52 104 54 C 98 56 94 50 96 46"/>
+    </svg>
+
+  </section><!-- /hero-section -->
+
+  <!-- ═══════════════════════════════════════
+       ABOUT / COIN SECTION
+  ═══════════════════════════════════════ -->
+  <section id="stats-section" aria-labelledby="stats-heading">
+
+    <div class="section-watermark" aria-hidden="true">MACCA</div>
+
+    <div class="stats-left">
+      <span class="eyebrow">The Meme &amp; The Movement</span>
+      <h2 class="section-headline" id="stats-heading">
+        VICE CITY ENERGY.<br>SOLANA VELOCITY.
+      </h2>
+      <p class="section-body">
+        Born in the neon swamps of Vice City, Macca the Gator is here to dominate Solana.
+        Zero team tokens, zero taxes, and 100% fair curve mechanics on Pump.fun.
+        Join the gator army taking over the meme supercycle.
+      </p>
+
+      <!-- 2×2 glass stat cards -->
+      <div class="stat-cards-grid">
+
+        <div class="stat-card glass-card">
+          <div class="stat-card-value">PUMP.FUN</div>
+          <div class="stat-card-label">Fair Launch</div>
+          <div class="stat-card-desc">100% fair bonding curve. Zero presale, zero insiders.</div>
+        </div>
+
+        <div class="stat-card glass-card">
+          <div class="stat-card-value">0% / 0%</div>
+          <div class="stat-card-label">Zero Tax</div>
+          <div class="stat-card-desc">No buy tax, no sell tax. Pure friction-free meme trading.</div>
+        </div>
+
+        <div class="stat-card glass-card">
+          <div class="stat-card-value">1 BILLION</div>
+          <div class="stat-card-label">Total Supply</div>
+          <div class="stat-card-desc">Fixed supply forever. Mint revoked, freeze disabled.</div>
+        </div>
+
+        <div class="stat-card glass-card">
+          <div class="stat-card-value">24/7 RAIDS</div>
+          <div class="stat-card-label">Cult Community</div>
+          <div class="stat-card-desc">Unstoppable memetic power fueled by degens worldwide.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </section><!-- /stats-section -->
+
+  <!-- ═══════════════════════════════════════
+       GATORNOMICS / TOKENOMICS SECTION
+  ═══════════════════════════════════════ -->
+  <section id="tokenomics-section" aria-labelledby="tokenomics-heading">
+    <div class="section-watermark section-watermark--left" aria-hidden="true">GATOR</div>
+
+    <div class="tokenomics-right">
+      <span class="eyebrow">★ 100% COMMUNITY OWNED</span>
+      <h2 class="section-headline" id="tokenomics-heading">
+        GATORNOMICS.<br>ZERO NONSENSE.
+      </h2>
+      <p class="section-body">
+        Engineered for pure memetic momentum on Solana. No team reserves, no venture capital unlocks, no taxes. 100% fair launch on Pump.fun.
+      </p>
+
+      <!-- Tokenomics Grid -->
+      <div class="tokenomics-grid">
+        <div class="tok-card glass-card">
+          <div class="tok-card-header">
+            <span class="tok-tag">TOTAL SUPPLY</span>
+            <span class="tok-pill">FIXED</span>
+          </div>
+          <div class="tok-val">1,000,000,000</div>
+          <div class="tok-title">$MACCA Coins</div>
+          <div class="tok-desc">No more tokens can ever be minted. Mint authority has been permanently revoked.</div>
+        </div>
+
+        <div class="tok-card glass-card">
+          <div class="tok-card-header">
+            <span class="tok-tag">TAX STRUCTURE</span>
+            <span class="tok-pill tok-pill--green">0% / 0%</span>
+          </div>
+          <div class="tok-val">0% TAX</div>
+          <div class="tok-title">Frictionless Trading</div>
+          <div class="tok-desc">0% buy tax, 0% sell tax, 0% transfer fee. Keep 100% of your gains.</div>
+        </div>
+
+        <div class="tok-card glass-card">
+          <div class="tok-card-header">
+            <span class="tok-tag">LAUNCH TYPE</span>
+            <span class="tok-pill">PUMP.FUN</span>
+          </div>
+          <div class="tok-val">100% FAIR</div>
+          <div class="tok-title">Bonding Curve</div>
+          <div class="tok-desc">Zero presale, zero private rounds, zero team allocations. Everyone starts equal.</div>
+        </div>
+
+        <div class="tok-card glass-card">
+          <div class="tok-card-header">
+            <span class="tok-tag">LIQUIDITY</span>
+            <span class="tok-pill tok-pill--gold">BURNED</span>
+          </div>
+          <div class="tok-val">100% LOCKED</div>
+          <div class="tok-title">Raydium Migration</div>
+          <div class="tok-desc">Upon curve completion, liquidity is automatically migrated to Raydium and burned forever.</div>
+        </div>
+      </div>
+
+      <!-- Security guarantee bar -->
+      <div class="security-banner glass-card">
+        <div class="sec-item">
+          <span class="sec-icon">🛡️</span>
+          <div>
+            <strong>MINT REVOKED</strong>
+            <p>Supply can never be inflated</p>
+          </div>
+        </div>
+        <div class="sec-item">
+          <span class="sec-icon">❄️</span>
+          <div>
+            <strong>FREEZE REVOKED</strong>
+            <p>Wallets can never be blacklisted</p>
+          </div>
+        </div>
+        <div class="sec-item">
+          <span class="sec-icon">🔥</span>
+          <div>
+            <strong>LP AUTOMATIC BURN</strong>
+            <p>Unruggable bonding curve</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- /tokenomics-section -->
+
+  <!-- ═══════════════════════════════════════
+       ROADMAP SECTION
+  ═══════════════════════════════════════ -->
+  <section id="roadmap-section" aria-labelledby="roadmap-heading">
+    <div class="section-watermark" aria-hidden="true">SWAMP</div>
+
+    <div class="roadmap-left">
+      <span class="eyebrow">The Master Plan</span>
+      <h2 class="section-headline" id="roadmap-heading">
+        THE VICE CITY<br>SWAMP ROADMAP
+      </h2>
+      <p class="section-body">
+        Macca doesn't follow trends — he hunts them. Here is our strategic conquest of the Solana meme ecosystem.
+      </p>
+
+      <!-- Roadmap phases vertical timeline / cards -->
+      <div class="roadmap-phases-grid">
+
+        <div class="phase-card glass-card phase--active">
+          <div class="phase-badge-row">
+            <span class="phase-num">PHASE 01</span>
+            <span class="phase-status-badge">CURRENT STAGE</span>
+          </div>
+          <h3 class="phase-title">The Ambush</h3>
+          <ul class="phase-checklist">
+            <li class="checked">Fair launch on Pump.fun</li>
+            <li class="checked">Viral meme blitz on X &amp; TikTok</li>
+            <li class="checked">Interactive 3D landing page experience</li>
+            <li>DEXScreener &amp; BirdEye banner trending</li>
+            <li>First 1,000 diamond-claw holders</li>
+          </ul>
+        </div>
+
+        <div class="phase-card glass-card">
+          <div class="phase-badge-row">
+            <span class="phase-num">PHASE 02</span>
+            <span class="phase-status-badge phase-status--upcoming">UPCOMING</span>
+          </div>
+          <h3 class="phase-title">The Raydium Migration</h3>
+          <ul class="phase-checklist">
+            <li>Graduate from Pump.fun bonding curve</li>
+            <li>Automated Raydium DEX pool creation &amp; LP burn</li>
+            <li>CoinGecko &amp; CoinMarketCap fast-track listings</li>
+            <li>Solana Telegram raiding bot deployment</li>
+            <li>5,000+ passionate community members</li>
+          </ul>
+        </div>
+
+        <div class="phase-card glass-card">
+          <div class="phase-badge-row">
+            <span class="phase-num">PHASE 03</span>
+            <span class="phase-status-badge phase-status--upcoming">UPCOMING</span>
+          </div>
+          <h3 class="phase-title">Vice City Flood</h3>
+          <ul class="phase-checklist">
+            <li>First Centralized Exchange (CEX) listings</li>
+            <li>Official Macca 3D avatar &amp; telegram sticker packs</li>
+            <li>Creator fund bounties for viral meme makers</li>
+            <li>Miami &amp; Times Square crypto billboard campaign</li>
+            <li>15,000+ active holders</li>
+          </ul>
+        </div>
+
+        <div class="phase-card glass-card">
+          <div class="phase-badge-row">
+            <span class="phase-num">PHASE 04</span>
+            <span class="phase-status-badge phase-status--upcoming">UPCOMING</span>
+          </div>
+          <h3 class="phase-title">Apex Predator</h3>
+          <ul class="phase-checklist">
+            <li>Tier-1 CEX Listings (MEXC, Gate, Bybit)</li>
+            <li>Real-world Florida alligator sanctuary sponsorship</li>
+            <li>$100M+ Market Cap memetic legend status</li>
+            <li>Macca merchandise &amp; Miami VIP community meetup</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- /roadmap-section -->
+
+  <!-- ═══════════════════════════════════════
+       HOW IT WORKS SECTION
+  ═══════════════════════════════════════ -->
+  <section id="how-section" aria-labelledby="how-heading">
+
+    <div class="section-watermark section-watermark--right" aria-hidden="true">MACCA</div>
+
+    <div class="how-content">
+      <span class="eyebrow">How To Buy $MACCA</span>
+      <h2 class="section-headline" id="how-heading">
+        THREE STEPS<br>TO JOIN THE RAID
+      </h2>
+
+      <div class="step-items">
+
+        <div class="step-item glass-card">
+          <span class="step-number">01</span>
+          <div class="step-body">
+            <div class="step-title">Get A Solana Wallet</div>
+            <div class="step-desc">
+              Download Phantom or Solflare from the official stores on desktop or mobile. Back up your secret phrase securely.
+            </div>
+          </div>
+          <span class="step-arrow">›</span>
+        </div>
+
+        <div class="step-item glass-card">
+          <span class="step-number">02</span>
+          <div class="step-body">
+            <div class="step-title">Load Up With SOL</div>
+            <div class="step-desc">
+              Purchase SOL on your preferred exchange (Coinbase, Binance, Kraken, Bybit) and transfer it directly to your Solana wallet address.
+            </div>
+          </div>
+          <span class="step-arrow">›</span>
+        </div>
+
+        <div class="step-item glass-card">
+          <span class="step-number">03</span>
+          <div class="step-body">
+            <div class="step-title">Swap On Pump.fun</div>
+            <div class="step-desc">
+              Click the "BUY ON PUMP.FUN" button below, connect your wallet, choose how much SOL to swap, and secure your $MACCA bag!
+            </div>
+          </div>
+          <span class="step-arrow">›</span>
+        </div>
+
+      </div>
+
+      <div class="how-cta-row">
+        <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="btn-dark" id="how-get-btn">BUY ON PUMP.FUN ↗</a>
+        <button class="btn-glass" id="how-copy-btn">COPY CONTRACT</button>
+      </div>
+    </div>
+
+  </section><!-- /how-section -->
+
+  <!-- ═══════════════════════════════════════
+       FAQ SECTION
+  ═══════════════════════════════════════ -->
+  <section id="faq-section" aria-labelledby="faq-heading">
+    <div class="section-watermark" aria-hidden="true">FAQ</div>
+
+    <div class="faq-left">
+      <span class="eyebrow">Got Questions?</span>
+      <h2 class="section-headline" id="faq-heading">
+        FREQUENTLY ASKED<br>QUESTIONS
+      </h2>
+      <p class="section-body">
+        Everything you need to know about the apex meme predator taking over Solana.
+      </p>
+
+      <div class="faq-accordion">
+
+        <div class="faq-card glass-card">
+          <div class="faq-question">
+            <span>What is $MACCA?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            $MACCA is the pink and gold meme coin starring Macca the Gator — the cold-blooded, stylish predator born in Vice City. It is a 100% community-driven fair launch token on Solana with zero tax and zero team allocations.
+          </div>
+        </div>
+
+        <div class="faq-card glass-card">
+          <div class="faq-question">
+            <span>Is $MACCA safe and unruggable?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes. $MACCA was launched on Pump.fun's transparent mathematical bonding curve. Mint authority is revoked (no new tokens can ever be created), freeze authority is revoked (wallets cannot be blocked), and liquidity automatically migrates to Raydium where the LP tokens are permanently burned.
+          </div>
+        </div>
+
+        <div class="faq-card glass-card">
+          <div class="faq-question">
+            <span>What is the official Solana contract address?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            The official Solana contract address is <code>6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC</code>. Always double check the address on Pump.fun or Solscan before swapping.
+          </div>
+        </div>
+
+        <div class="faq-card glass-card">
+          <div class="faq-question">
+            <span>Are there any buy or sell taxes?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Zero percent (0% / 0%). There are no developer taxes, no marketing fees on transactions, and no hidden deductions. You keep 100% of your tokens and trades.
+          </div>
+        </div>
+
+        <div class="faq-card glass-card">
+          <div class="faq-question">
+            <span>How do I track price and charts?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            You can track real-time price, candlestick charts, and trading volume directly on Pump.fun and DEXScreener by searching $MACCA or pasting the official contract address.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- /faq-section -->
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer id="site-footer" role="contentinfo">
+
+    <!-- Decorative glow -->
+    <div class="footer-bg-coin" aria-hidden="true"></div>
+
+    <div class="footer-inner">
+      <div class="footer-top">
+
+        <!-- Column 1: Brand -->
+        <div class="footer-brand-col">
+          <div class="footer-logo">MACCA</div>
+          <div class="footer-tagline">Macca the Gator · Vice City's Pink &amp; Gold Meme Coin.</div>
+
+          <div class="footer-socials">
+            <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="Pump.fun">💊 Pump.fun</a>
+            <a href="#" class="social-pill" aria-label="Twitter">𝕏 Twitter</a>
+            <a href="#" class="social-pill" aria-label="Telegram">◎ Telegram</a>
+            <a href="https://solscan.io/token/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="Solscan Explorer">◎ Solscan</a>
+          </div>
+        </div>
+
+        <!-- Column 2: Links -->
+        <div class="footer-links-col">
+
+          <div class="footer-link-group">
+            <div class="footer-link-heading">Token</div>
+            <ul class="footer-link-list">
+              <li><a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer">Pump.fun</a></li>
+              <li><a href="https://solscan.io/token/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer">Solscan</a></li>
+              <li><a href="#stats-section">About Macca</a></li>
+              <li><a href="#how-section">How to Buy</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <div class="footer-link-heading">Community</div>
+            <ul class="footer-link-list">
+              <li><a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer">Pump.fun Trade</a></li>
+              <li><a href="#">Twitter / X</a></li>
+              <li><a href="#">Telegram</a></li>
+              <li><a href="#">Raydium</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <div class="footer-link-heading">About</div>
+            <ul class="footer-link-list">
+              <li><a href="#hero-section">The Coin</a></li>
+              <li><a href="#stats-section">Fair Launch</a></li>
+              <li><a href="#how-section">Guide</a></li>
+              <li><a href="#site-footer">Contract</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Column 3: Contract card -->
+        <div class="footer-contract-col">
+          <div class="footer-contract-card">
+            <div class="fc-title">Official Contract</div>
+            <div class="fc-name">$MACCA on Pump.fun</div>
+            <div class="fc-desc">
+              Always verify the official contract address on Pump.fun or Solscan before swapping.
+            </div>
+            <div class="fc-addr-box" id="footer-addr">
+              6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC
+            </div>
+            <div class="fc-btns-row">
+              <button class="fc-copy-btn" id="footer-copy-btn">COPY ADDRESS</button>
+              <a href="https://pump.fun/coin/6YqakuvZZ26Svz5SGtCV4yWymwyp1NM4M1DgBX7svRpC" target="_blank" rel="noopener noreferrer" class="fc-buy-btn" id="footer-buy-btn">BUY ON PUMP.FUN ↗</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /footer-top -->
+
+      <!-- Footer bottom bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span class="footer-copyright">© 2026 MACCA THE GATOR · ALL RIGHTS RESERVED</span>
+          <div class="footer-legal-links">
+            <a href="#">Community Powered</a>
+            <a href="#">0% Tax</a>
+            <a href="#">Solana</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom-center">MACCA</div>
+
+        <!-- Scrolling ticker -->
+        <div class="footer-ticker-wrap" aria-hidden="true">
+          <div class="footer-ticker">
+            <span class="footer-ticker-inner">
+              $MACCA · MACCA THE GATOR · LIVE ON PUMP.FUN · 0% TAX · 100% FAIR LAUNCH · PINK &amp; GOLD · SOLANA ·&nbsp;
+            </span>
+            <span class="footer-ticker-inner">
+              $MACCA · MACCA THE GATOR · LIVE ON PUMP.FUN · 0% TAX · 100% FAIR LAUNCH · PINK &amp; GOLD · SOLANA ·&nbsp;
+            </span>
+          </div>
+        </div>
+      </div><!-- /footer-bottom -->
+
+    </div><!-- /footer-inner -->
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
