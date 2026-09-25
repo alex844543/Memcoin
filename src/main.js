@@ -178,16 +178,11 @@ loader.load(
     scene.add(coin);
     coinLoaded = true;
 
-    /* Dismiss loading screen then run entrance */
+    /* Dismiss loading screen and show coin */
     dismissLoading();
     coinEntrance();
 
-    /*
-     * CRITICAL: set up scroll-driven coin positioning here, immediately
-     * after the GLB loads. window.load fires before the 62 MB model is
-     * ready, so the guard `if (!coin) return` would bail out if we only
-     * relied on the load event listener below.
-     */
+    /* Set up scroll-driven coin choreography */
     setupScrollCoin();
     ScrollTrigger.refresh();
   },
@@ -200,23 +195,33 @@ loader.load(
   },
   (err) => {
     console.error('GLB load error:', err);
-    /* Dismiss loading screen even on error so UI is usable */
     dismissLoading();
     uiEntrance();
   }
 );
 
+/* Fallback: Dismiss loading screen and show UI within 800ms max so customers never wait */
+setTimeout(() => {
+  dismissLoading();
+  uiEntrance();
+}, 800);
+
 /* ─────────────────────────────────────────
    LOADING SCREEN DISMISS
 ───────────────────────────────────────── */
+let loadingDismissed = false;
 function dismissLoading() {
+  if (loadingDismissed) return;
+  loadingDismissed = true;
   const screen = document.getElementById('loading-screen');
-  if (!screen) return;
   if (loadingBar) loadingBar.style.width = '100%';
-  setTimeout(() => {
+  if (screen) {
     screen.classList.add('hidden');
-    setTimeout(() => screen.remove(), 700);
-  }, 300);
+    setTimeout(() => {
+      if (screen.parentNode) screen.remove();
+    }, 500);
+  }
+  uiEntrance();
 }
 
 /* ─────────────────────────────────────────
@@ -235,19 +240,18 @@ function coinEntrance() {
     x: targetScalar,
     y: targetScalar,
     z: targetScalar,
-    duration: 1.3,
+    duration: 1.1,
     ease: 'expo.out',
-    delay: 0.5,
+    delay: 0.1,
   });
 
   gsap.to(coin.position, {
     y: targetY,
-    duration: 1.3,
+    duration: 1.1,
     ease: 'expo.out',
-    delay: 0.5,
+    delay: 0.1,
     onComplete: () => {
       enableDrag();
-      uiEntrance();
     },
   });
 }
@@ -255,20 +259,24 @@ function coinEntrance() {
 /* ─────────────────────────────────────────
    UI ENTRANCE SEQUENCE (GSAP timeline)
 ───────────────────────────────────────── */
+let uiRevealed = false;
 function uiEntrance() {
-  const tl = gsap.timeline({ delay: 0.15 });
+  if (uiRevealed) return;
+  uiRevealed = true;
 
-  tl.to('#nav-logo',    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.1)
-    .to('#nav-links',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.15)
-    .to('#nav-buy-btn', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.2)
-    .to('#event-card-wrap', { opacity: 1, x: 0, duration: 1.1, ease: 'expo.out' }, 0.55)
-    .to('#hero-text',       { opacity: 1, x: 0, duration: 1.1, ease: 'expo.out' }, 0.65)
-    .to('#nav-arrow-btn',   { opacity: 1, duration: 0.5, ease: 'power2.out' },     1.1)
-    .to('#signature-svg',   { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 1.2)
+  const tl = gsap.timeline({ delay: 0.05 });
+
+  tl.to('#nav-logo',    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.05)
+    .to('#nav-links',   { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.1)
+    .to('#nav-buy-btn', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.15)
+    .to('#event-card-wrap', { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, 0.2)
+    .to('#hero-text',       { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, 0.25)
+    .to('#nav-arrow-btn',   { opacity: 1, duration: 0.4, ease: 'power2.out' },     0.5)
+    .to('#signature-svg',   { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.6)
     /* Signature paths */
-    .to('.sp1', { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, 1.2)
-    .to('.sp2', { strokeDashoffset: 0, duration: 1.0, ease: 'power2.inOut' }, 1.8)
-    .to('.sp3', { strokeDashoffset: 0, duration: 0.7, ease: 'power2.inOut' }, 2.0);
+    .to('.sp1', { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, 0.6)
+    .to('.sp2', { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut' }, 1.0)
+    .to('.sp3', { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, 1.2);
 }
 
 /* ─────────────────────────────────────────
