@@ -135,7 +135,7 @@ scene.add(hemiLight);
 const loadingBar = document.getElementById('loading-bar');
 
 const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+dracoLoader.setDecoderPath('/draco/');
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
